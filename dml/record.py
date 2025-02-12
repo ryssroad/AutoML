@@ -64,7 +64,7 @@ class GeneRecordManager:
         self.json_file_path = json_file_path
         self.expression_registry_path = expression_registry_path
         self.records: Dict[str, Any] = {}
-        self.expression_registry: Dict[str, List[str]] = {}  # Maps expression hash to list of miners who used it
+        self.expression_registry: Dict[str, List[str]] = {}  # Maps expression hash to list of rovers who used it
         self.datasets = load_test_datasets()
         self._load_records()
         self._load_expression_registry()
@@ -137,7 +137,7 @@ class GeneRecordManager:
             return None
 
     def add_record(self, 
-                  miner_hotkey: str, 
+                  rover_hotkey: str, 
                   chain_hash: str, 
                   block_number: int, 
                   performance: float, 
@@ -145,14 +145,14 @@ class GeneRecordManager:
                   repo_name: str = None, 
                   func = None,
                   gene_string: str = None):
-        """Add a new record for a miner's gene submission"""
+        """Add a new record for a rover's gene submission"""
 
         try:
             performance = performance.tolist()
         except:
             pass
         
-        self.records[miner_hotkey] = {
+        self.records[rover_hotkey] = {
             'chain_hash': chain_hash,
             'block_number': block_number,
             'performance': performance,
@@ -168,7 +168,7 @@ class GeneRecordManager:
 
                     self.expression_registry[func_signature] = {
                         "earliest_timestamp": block_number,
-                        "earliest_hotkey": miner_hotkey,
+                        "earliest_hotkey": rover_hotkey,
                         "score": performance
                     }
                     self._save_expression_registry()
@@ -180,19 +180,19 @@ class GeneRecordManager:
             breakpoint()
 
     def is_expression_duplicate(self, expr) -> bool:
-        """Check if an expression has been used before by any miner"""
+        """Check if an expression has been used before by any rover"""
         expr_fingerprint = self._compute_function_signature(expr)
         return expr_fingerprint in self.expression_registry
 
 
-    def get_record(self, miner_hotkey: str) -> Dict[str, Any]:
-        return self.records.get(miner_hotkey, None)
+    def get_record(self, rover_hotkey: str) -> Dict[str, Any]:
+        return self.records.get(rover_hotkey, None)
 
     def get_all_records(self) -> Dict[str, Dict[str, Any]]:
         return self.records
 
-    def should_download(self, miner_hotkey: str, remote_gene_hash: str) -> bool:
-        record = self.get_record(miner_hotkey)
+    def should_download(self, rover_hotkey: str, remote_gene_hash: str) -> bool:
+        record = self.get_record(rover_hotkey)
         if record is None:
             return True
         return record['chain_hash'] != remote_gene_hash

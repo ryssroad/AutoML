@@ -8,7 +8,7 @@ def constrained_decay(n: int, ratio: float = 5.0):
    
     return normalized_decay.tolist() 
 
-class ValidatorConfig:
+class AuditorConfig:
     device = "cuda"
 
     cache_interval = 7200
@@ -17,7 +17,7 @@ class ValidatorConfig:
     cache_interval = 7200
 
     validation_interval = 2000
-    validator_type = "loss"
+    auditor_type = "loss"
     top_k = 50
     min_score = 0.0
     top_k_weight = constrained_decay(50, 5.0)

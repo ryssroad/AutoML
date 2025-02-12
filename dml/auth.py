@@ -19,7 +19,7 @@ def authenticate_request_with_bittensor(f):
             return make_response(jsonify({'error': 'Missing message, signature, or public_address'}), 400)
 
         # For simplicity, we're not checking against a metagraph here.
-        # In a real implementation, you'd want to verify the miner is registered on the network.
+        # In a real implementation, you'd want to verify the rover is registered on the network.
 
         signature_bytes = bytes.fromhex(signature) if isinstance(signature, str) else signature
         keypair_public = Keypair(ss58_address=public_address, crypto_type=KeypairType.SR25519)
@@ -28,6 +28,6 @@ def authenticate_request_with_bittensor(f):
         if is_valid:
             return f(*args, **kwargs)
         else:
-            logger.info(f"Miner {public_address} refused. Signature Verification Failed")
+            logger.info(f"Rover {public_address} refused. Signature Verification Failed")
             return make_response(jsonify({'error': 'Signature verification failed'}), 403)
     return decorated_function

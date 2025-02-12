@@ -7,7 +7,7 @@ from typing import Optional
 
 # Define repository and script paths
 REPO_PATH = os.path.dirname(os.path.abspath(__file__))
-MAIN_SCRIPT_PATH = "neurons/validator.py"
+MAIN_SCRIPT_PATH = "neurons/auditor.py"
 BRANCH = 'main'
 
 # Set up logging

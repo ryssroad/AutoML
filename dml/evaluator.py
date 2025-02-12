@@ -4,7 +4,7 @@ from deap import base, creator, gp, tools
 from dml.data import load_datasets
 from dml.gene_io import load_individual_from_json
 from dml.models import get_model_for_dataset
-from dml.ops import create_pset, create_pset_validator, batch_loss
+from dml.ops import create_pset, create_pset_auditor, batch_loss
 
 from dataclasses import dataclass
 from datetime import datetime
@@ -267,7 +267,7 @@ class TaskEvaluator:
 
     def initialize_deap(self):
         self.toolbox = base.Toolbox()
-        self.pset = create_pset_validator()
+        self.pset = create_pset_auditor()
 
         creator.create("FitnessMax", base.Fitness, weights=(1.0,))
         creator.create("Individual", gp.PrimitiveTree, fitness=creator.FitnessMax)

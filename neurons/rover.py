@@ -1,4 +1,4 @@
-from dml.miners import MinerFactory
+from dml.rovers import RoverFactory
 from dml.chain.btt_connector import BittensorNetwork
 from dml.configs.config import config
 def main(config):
@@ -7,14 +7,14 @@ def main(config):
 
     config.bittensor_network = BittensorNetwork
 
-    miner = MinerFactory.get_miner(config)
-    best_genome = miner.mine()
+    rover = RoverFactory.get_rover(config)
+    best_genome = rover.mine()
 
     print(f"Best genome fitness: {best_genome.fitness.values[0]:.4f}")
-    print(f"Baseline accuracy: {miner.baseline_accuracy:.4f}")
-    print(f"Improvement over baseline: {best_genome.fitness.values[0] - miner.baseline_accuracy:.4f}")
+    print(f"Baseline accuracy: {rover.baseline_accuracy:.4f}")
+    print(f"Improvement over baseline: {best_genome.fitness.values[0] - rover.baseline_accuracy:.4f}")
     return best_genome
 
 if __name__ == "__main__":
-    miner_type = "loss"  # Change this to "loss" or "simple" as needed
+    rover_type = "loss"  # Change this to "loss" or "simple" as needed
     best_genome = main(config)

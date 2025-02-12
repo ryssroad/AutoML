@@ -30,7 +30,7 @@ class HFManager:
         self.device = device
         #self.local_dir = local_dir
 
-        # Define the local directory structure based on repository IDs but only do clone personal repo if miner
+        # Define the local directory structure based on repository IDs but only do clone personal repo if rover
         if self.gene_repo_id != None:
             self.gene_repo = Repository(
                 local_dir=os.path.join(local_dir, gene_repo_id.split("/")[-1]),
@@ -175,16 +175,16 @@ class HFManager:
     def pull_latest_model(self):
         self.model_repo.git_pull()
 
-    def receive_gradients(self, miner_repo_id, weights_file_name="weight_diff.pt"):
+    def receive_gradients(self, rover_repo_id, weights_file_name="weight_diff.pt"):
         try: #TODO Add some garbage collection.
             # Download the gradients file from Hugging Face Hub
             weights_file_path = hf_hub_download(
-                repo_id=miner_repo_id, filename=weights_file_name, use_auth_token=True
+                repo_id=rover_repo_id, filename=weights_file_name, use_auth_token=True
             )
             # Load the gradients directly using torch.load
-            miner_weights = torch.load(weights_file_path, map_location=self.device)
+            rover_weights = torch.load(weights_file_path, map_location=self.device)
             os.remove(weights_file_path)
-            return miner_weights
+            return rover_weights
         except Exception as e:
             logging.debug(f"Error receiving gradients from Hugging Face: {e}")
 

@@ -2,8 +2,8 @@ from dml.configs.general_config import GeneralConfig
 
 from dml.configs.bittensor_config import BittensorConfig
 from dml.configs.evaluator_config import EvaluatorConfig
-from dml.configs.miner_config import MinerConfig
-from dml.configs.validator_config import ValidatorConfig
+from dml.configs.rover_config import RoverConfig
+from dml.configs.auditor_config import AuditorConfig
 
 class Config:
     def __init__(self):
@@ -12,8 +12,8 @@ class Config:
         
         self.Bittensor = BittensorConfig()
         self.Evaluator = EvaluatorConfig()
-        self.Miner = MinerConfig()
-        self.Validator = ValidatorConfig()
+        self.Rover = RoverConfig()
+        self.Auditor = AuditorConfig()
 
     @property
     def device(self):

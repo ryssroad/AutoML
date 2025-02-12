@@ -7,7 +7,7 @@ from typing import Optional
 
 # Define repository and script paths
 REPO_PATH = os.path.dirname(os.path.abspath(__file__))
-MAIN_SCRIPT_PATH = "neurons/miner.py"
+MAIN_SCRIPT_PATH = "neurons/rover.py"
 BRANCH = 'main'
 
 # Set up logging

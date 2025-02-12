@@ -108,28 +108,28 @@ class BittensorNetwork:
             logging.info(f"Error setting weights: {e}")
 
     @classmethod
-    def get_validator_uids(
+    def get_auditor_uids(
         cls, vpermit_tao_limit: int = 1024
     ):
         """
         Check availability of all UIDs in a given subnet, returning their IP, port numbers, and hotkeys
         if they are serving and have at least vpermit_tao_limit stake, along with a list of strings
-        formatted as 'ip:port' for each validator.
+        formatted as 'ip:port' for each auditor.
 
         Args:
             metagraph (bt.metagraph.Metagraph): Metagraph object.
-            vpermit_tao_limit (int): Validator permit tao limit.
+            vpermit_tao_limit (int): Auditor permit tao limit.
 
         Returns:
             Tuple[List[dict], List[str]]: A tuple where the first element is a list of dicts with details
                                             of available UIDs, including their IP, port, and hotkeys, and the
                                             second element is a list of strings formatted as 'ip:port'.
         """
-        validator_uids = []  # List to hold 'ip:port' strings
+        auditor_uids = []  # List to hold 'ip:port' strings
         for uid in range(len(cls.metagraph.S)):
             if cls.metagraph.S[uid] >= vpermit_tao_limit:
-                validator_uids.append(uid)
-        return validator_uids
+                auditor_uids.append(uid)
+        return auditor_uids
 
     @classmethod
     def should_set_weights(cls) -> bool:

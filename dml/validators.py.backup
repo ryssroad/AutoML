@@ -252,7 +252,7 @@ class BaseValidator(ABC):
 
         hotkeys = list(filtered_scores_dict.keys())
 
-        # Convert dict to tensor matrix [n_miners x n_datasets]
+        # Convert dict to tensor matrix [n_rovers x n_datasets]
         try:
             accuracy_matrix = torch.stack([filtered_scores_dict[h] for h in hotkeys])
         except:
@@ -274,7 +274,7 @@ class BaseValidator(ABC):
             # add 1 because ranks should start at 1
             ranks[:, j] = torch.argsort(torch.argsort(-accuracy_matrix[:, j])) + 1
 
-        # Average rank across datasets for each miner
+        # Average rank across datasets for each rover
         avg_ranks = ranks.float().mean(dim=1)
 
         # Create dict mapping hotkeys to average ranks
@@ -292,9 +292,9 @@ class BaseValidator(ABC):
 
     def calculate_topk_scores(self, score_dict: Dict[str, float], all_hotkeys: list) -> Dict[str, float]:
         """
-        Calculate normalized top-k scores for miners with dynamic weight redistribution.
+        Calculate normalized top-k scores for rovers with dynamic weight redistribution.
         When there are ties, remaining weights are pooled and distributed equally among
-        all miners with the same score.
+        all rovers with the same score.
         """
         # Filter out zero scores
         filtered_scores = {k: v for k, v in score_dict.items() if ((v != 0.0) and (v != float("nan")))}
@@ -369,7 +369,7 @@ class BaseValidator(ABC):
         datasets = load_datasets(self.config.Validator.architectures.keys(), batch_size=32)
 
         temp_scores = {h: 0.0 for h in self.bittensor_network.metagraph.hotkeys}
-        validated_miners = set()
+        validated_rovers = set()
 
         # Single pass: download, collect signatures, and evaluate
         for hotkey_address in tqdm(self.bittensor_network.metagraph.hotkeys):
@@ -507,8 +507,8 @@ class BaseValidator(ABC):
                                     existing_record["performance"], device=self.device
                                 )
 
-                                if hotkey_address not in validated_miners:
-                                    validated_miners.add(hotkey_address)
+                                if hotkey_address not in validated_rovers:
+                                    validated_rovers.add(hotkey_address)
                                     # Update temporary scores based on current validation results
                                     if hotkey_address in accuracy_scores:
                                         temp_scores[hotkey_address] = float(accuracy_scores[hotkey_address])
@@ -531,8 +531,8 @@ class BaseValidator(ABC):
                                 existing_record["performance"], device=self.device
                             )
                             
-                            if hotkey_address not in validated_miners:
-                                validated_miners.add(hotkey_address)
+                            if hotkey_address not in validated_rovers:
+                                validated_rovers.add(hotkey_address)
                                 # Update temporary scores based on current validation results
                                 if hotkey_address in accuracy_scores:
                                     temp_scores[hotkey_address] = float(accuracy_scores[hotkey_address])
@@ -560,9 +560,9 @@ class BaseValidator(ABC):
                         logging.warning("30-minute threshold reached. Setting intermediate weights.")
                         
                         # Set intermediate weights using top-k approach
-                        if validated_miners:
+                        if validated_rovers:
                             filtered_temp_scores = {k: v for k, v in temp_scores.items() 
-                                                if k in validated_miners}
+                                                if k in validated_rovers}
                             
                             intermediate_scores = self.calculate_topk_scores(
                                 filtered_temp_scores, 
@@ -601,7 +601,7 @@ class BaseValidator(ABC):
                                 accuracy_score = self.evaluate_individual(gene, datasets)
                                 accuracy_scores[hotkey_address] = accuracy_score
                             except Exception as e:
-                                logging.info(f"Evaluation failed for {hotkey_address}. Assigning 0 score. Miner Caused Error: {e}")
+                                logging.info(f"Evaluation failed for {hotkey_address}. Assigning 0 score. Rover Caused Error: {e}")
                                 accuracy_scores[hotkey_address] = torch.tensor(
                                     0.0, device=self.device
                                 )
@@ -624,8 +624,8 @@ class BaseValidator(ABC):
                 
 
             
-            if hotkey_address not in validated_miners:
-                validated_miners.add(hotkey_address)
+            if hotkey_address not in validated_rovers:
+                validated_rovers.add(hotkey_address)
                 # Update temporary scores based on current validation results
                 if hotkey_address in accuracy_scores:
                     temp_scores[hotkey_address] = float(accuracy_scores[hotkey_address])

@@ -1,5 +1,5 @@
 import unittest
-from dml.ops import create_pset_validator
+from dml.ops import create_pset_auditor
 from dml.gene_io import safe_eval
 from dml.gp_fix import SafePrimitiveTree
 from dml.deap_individual import Individual
@@ -7,7 +7,7 @@ from deap import creator, gp, base, tools
 from dml.utils import set_seed
 from dml.configs.config import config
 from dml.data import load_datasets
-from dml.validators import ValidatorFactory
+from dml.auditors import AuditorFactory
 from dml.chain.btt_connector import BittensorNetwork
 from dml.chain.chain_manager import ChainManager
 import numpy as np
@@ -15,10 +15,10 @@ import numpy as np
 class TestDeterminism(unittest.TestCase):
     def test_evaluation(self, seed=42):
         """
-        Ensures that scoring is consistent across validators
+        Ensures that scoring is consistent across auditors
         """
         # Initialize DEAP
-        pset = create_pset_validator()
+        pset = create_pset_auditor()
         creator.create("FitnessMax", base.Fitness, weights=(1.0,))
         creator.create("Individual", gp.PrimitiveTree, fitness=creator.FitnessMax)
 
@@ -28,7 +28,7 @@ class TestDeterminism(unittest.TestCase):
         toolbox.register("population", tools.initRepeat, list, toolbox.individual)
         toolbox.register("compile", gp.compile, pset=pset)
 
-        # Initialize validators
+        # Initialize auditors
         bt_config = config.get_bittensor_config()
         BittensorNetwork.initialize(bt_config)
         config.bittensor_network = BittensorNetwork
@@ -37,12 +37,12 @@ class TestDeterminism(unittest.TestCase):
             subnet_uid=bt_config.netuid,
             wallet=BittensorNetwork.wallet,
         )
-        validator1 = ValidatorFactory.get_validator(config)
-        validator2 = ValidatorFactory.get_validator(config)
+        auditor1 = AuditorFactory.get_auditor(config)
+        auditor2 = AuditorFactory.get_auditor(config)
 
         # Load data
         set_seed(seed)
-        datasets = load_datasets(config.Validator.dataset_names, batch_size=32, seed=seed)
+        datasets = load_datasets(config.Auditor.dataset_names, batch_size=32, seed=seed)
 
         # Compile and evaluate test genes
         loss1 = 'square(safe_sub(x, y))'
@@ -50,13 +50,13 @@ class TestDeterminism(unittest.TestCase):
         gene1 = Individual(SafePrimitiveTree.from_string(loss1, pset, safe_eval))
         gene2 = Individual(SafePrimitiveTree.from_string(loss2, pset, safe_eval))
 
-        # Validator 1's scores
-        val1_fitness1 = validator1.evaluate_individual(gene1, datasets).cpu().detach().numpy()
-        val1_fitness2 = validator1.evaluate_individual(gene2, datasets).cpu().detach().numpy()
+        # Auditor 1's scores
+        val1_fitness1 = auditor1.evaluate_individual(gene1, datasets).cpu().detach().numpy()
+        val1_fitness2 = auditor1.evaluate_individual(gene2, datasets).cpu().detach().numpy()
 
-        # Validator 2's scores
-        val2_fitness2 = validator2.evaluate_individual(gene2, datasets).cpu().detach().numpy()
-        val2_fitness1 = validator2.evaluate_individual(gene1, datasets).cpu().detach().numpy()
+        # Auditor 2's scores
+        val2_fitness2 = auditor2.evaluate_individual(gene2, datasets).cpu().detach().numpy()
+        val2_fitness1 = auditor2.evaluate_individual(gene1, datasets).cpu().detach().numpy()
 
         self.assertTrue(np.allclose(val1_fitness1, val2_fitness1))
         self.assertTrue(np.allclose(val1_fitness2, val2_fitness2))

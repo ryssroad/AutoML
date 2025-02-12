@@ -39,7 +39,7 @@ class DatasetSpec:
 
 class DeterministicSampler(Sampler):
     """
-    Sampler for a single shuffle at initialization to ensure consistency across validators
+    Sampler for a single shuffle at initialization to ensure consistency across auditors
     """
     def __init__(self, n):
         self.idx = torch.randperm(n).tolist()

@@ -64,7 +64,7 @@ def calculate_tree_depth(expression: str) -> int:
 def compute_chain_hash(func_str) -> str:
     """
     Computes deterministic SHA256 hash of function for chain storage.
-    Used by miners to submit and validators to verify downloads.
+    Used by rovers to submit and auditors to verify downloads.
     """
     # Convert function to string in a deterministic way
     #func_str = str(func)

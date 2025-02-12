@@ -1,7 +1,7 @@
 import time 
 
-class MinerConfig:
-    #TODO limit validator memory allowed to prevent DOS attacks 
+class RoverConfig:
+    #TODO limit auditor memory allowed to prevent DOS attacks 
     device = "cuda"
     batch_size = 8
     checkpoint_save_dir = "checkpoints"
@@ -9,7 +9,7 @@ class MinerConfig:
     evaluation_iterations = 50
     gp_tree_height = 90
     generations = 10000000000 
-    miner_type = "loss"
+    rover_type = "loss"
     num_processes = 1 #TODO add multi-arch multi-core mining support
     pool_url = None #"http://127.0.0.1:5000"
     population_size = 50 # Per process pop = population_size // num_processes

@@ -4,18 +4,18 @@ from typing import Dict, List
 
 class TestTopKScores(unittest.TestCase):
     def setUp(self):
-        # Mock config class to simulate the validator's config
+        # Mock config class to simulate the auditor's config
         class MockConfig:
             def __init__(self):
-                self.Validator = type('obj', (object,), {
+                self.Auditor = type('obj', (object,), {
                     'top_k': 5,
                     # Generate weights that sum to 1.0 based on top_k
                     'top_k_weights': [1.0/(2**i) for i in range(5)]  # [0.5, 0.25, 0.125, 0.0625, 0.0625]
                 })
                 
                 # Normalize the weights to sum to 1.0
-                total = sum(self.Validator.top_k_weights)
-                self.Validator.top_k_weights = [w/total for w in self.Validator.top_k_weights]
+                total = sum(self.Auditor.top_k_weights)
+                self.Auditor.top_k_weights = [w/total for w in self.Auditor.top_k_weights]
             
         self.mock_config = MockConfig()
     
@@ -51,7 +51,7 @@ class TestTopKScores(unittest.TestCase):
                     )
 
     def test_all_equal_scores(self):
-        """Test when all miners have the same score"""
+        """Test when all rovers have the same score"""
         input_scores = {
             f"hotkey_{i}": 0.95 for i in range(8)
         }
@@ -93,7 +93,7 @@ class TestTopKScores(unittest.TestCase):
         self.assertAlmostEqual(result["hotkey_5"], 0.2)  # 0.6/3
 
     def test_more_than_k_at_same_tier(self):
-        """Test handling of more than k miners at the same tier"""
+        """Test handling of more than k rovers at the same tier"""
         input_scores = {
             "hotkey_1": 0.98,
             "hotkey_2": 0.98,  # These two share 0.4

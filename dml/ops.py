@@ -118,7 +118,7 @@ def create_pset(argument_count = 2):
     
     return pset
 
-def create_pset_validator():
+def create_pset_auditor():
     pset = gp.PrimitiveSet("MAIN", 2)
    
     # Basic arithmetic operations

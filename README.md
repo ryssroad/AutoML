@@ -16,7 +16,7 @@ While we're starting with specific components like loss functions, our long-term
 
 ### A New Frontier in AI Research
 
-By distributing this search across a network of miners and validators, we're not just crowdsourcing compute power; we're crowdsourcing the future of AI. Each discovery, each optimization, brings us closer to AI systems that can innovate beyond their initial design.
+By distributing this search across a network of rovers and auditors, we're not just crowdsourcing compute power; we're crowdsourcing the future of AI. Each discovery, each optimization, brings us closer to AI systems that can innovate beyond their initial design.
 
 Our goal isn't just to match human-designed AI components but to surpass them. We believe that machine-evolved algorithms have the potential to uncover optimizations and approaches that human researchers might never consider.
 
@@ -28,7 +28,7 @@ By participating in this subnet, you're not just mining for rewards or validatin
 
 ## Current Focus
 
-Currently running on Bittensor netuid (coming soon) (100 testnet), we're starting with a loss function search where miners are incentivesed to find better loss functions for a neural networks.
+Currently running on Bittensor netuid (coming soon) (100 testnet), we're starting with a loss function search where rovers are incentivesed to find better loss functions for a neural networks.
 
 The search for effective loss functions is a critical aspect of advancing deep learning. Loss functions play a pivotal role in guiding the training process of complex models, such as neural networks, by quantifying the difference between predicted outputs and actual targets. An optimal loss function can significantly enhance a model's ability to learn from large and intricate datasets, improve convergence rates, and ultimately lead to better generalization on unseen data. As deep learning applications grow increasingly sophisticated, the need for customized loss functions tailored to specific tasks—such as image classification, natural language processing, or generative modeling—becomes more pronounced.
 
@@ -50,18 +50,18 @@ Deep learning models have achieved remarkable success across various domains, fr
 
 ## Participation
 
-### As a Miner
+### As a Rover
 
-You have two main approaches as a miner:
+You have two main approaches as a rover:
 
 1. **Rely on Brains:**
    - Develop new functions in the target optimization area and write algorithms in our genetic format.
    - Create better optimization approaches than our default offerings.
-   - Design more efficient miners to maximize your available compute resources.
+   - Design more efficient rovers to maximize your available compute resources.
 
 2. **Rely on Compute:**
    - If you have enough computational resources on your own:
-     - Run an independent miner.
+     - Run an independent rover.
    - If you don't:
      - Joing a mining pool (work in progress)
        
@@ -71,9 +71,9 @@ You have two main approaches as a miner:
     200 GB storage
     No GPU required at this stage
 
-### As a Validator
+### As a Auditor
 
-We welcome validators and are committed to supporting you. We can assist with setup, automation, cost-reduction, and other measures to reduce friction. Please note: Do not copy weights.
+We welcome auditors and are committed to supporting you. We can assist with setup, automation, cost-reduction, and other measures to reduce friction. Please note: Do not copy weights.
 
 #### Requirements
     12 GB VRAM GPU (min)
@@ -89,7 +89,7 @@ A: Yes, our work is inspired by and based on several research papers:
 
 ## Getting Started
 
-For detailed instructions on setting up and running miners and validators, please refer to our [Miner and Validator Tutorial](docs/tutorial.md).
+For detailed instructions on setting up and running rovers and auditors, please refer to our [Rover and Auditor Tutorial](docs/tutorial.md).
 
 ## Community and Support
 

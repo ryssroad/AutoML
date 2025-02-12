@@ -36,7 +36,7 @@ class HuggingFacePushDestination(PushDestination):
         self.repo_name = repo_name
         self.api = HfApi(token=config.hf_token)
 
-    def push(self, gene, commit_message, config, save_temp = config.Miner.save_temp_only):
+    def push(self, gene, commit_message, config, save_temp = config.Rover.save_temp_only):
 
         if not self.repo_name:
             logging.info("No Hugging Face repository name provided. Skipping push to Hugging Face.")
@@ -49,10 +49,10 @@ class HuggingFacePushDestination(PushDestination):
                 temp_file_path = temp_file.name
 
         else:
-            os.makedirs(config.Miner.checkpoint_save_dir, exist_ok=True)
+            os.makedirs(config.Rover.checkpoint_save_dir, exist_ok=True)
 
             temp_file_path = os.path.join(
-                config.Miner.checkpoint_save_dir, 
+                config.Rover.checkpoint_save_dir, 
                 f"{commit_message.replace('.', '_')}.json"
             )
             with open(temp_file_path, 'w') as temp_file:
@@ -138,7 +138,7 @@ class HFChainPushDestination(HuggingFacePushDestination):
         self.chain_push = ChainPushDestination(chain_manager)
         self.config = config
 
-    def push(self, gene, commit_message, save_temp=config.Miner.save_temp_only):
+    def push(self, gene, commit_message, save_temp=config.Rover.save_temp_only):
         # First push to HuggingFace
         
         # Then push to chain
