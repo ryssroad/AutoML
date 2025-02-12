@@ -8,9 +8,9 @@ class RoverConfig:
     check_registration_interval = 500
     evaluation_iterations = 50
     gp_tree_height = 90
-    generations = 10000000000 
+    generations = 10000 
     rover_type = "loss"
-    num_processes = 1 #TODO add multi-arch multi-core mining support
+    num_processes = 1
     pool_url = None #"http://127.0.0.1:5000"
     population_size = 50 # Per process pop = population_size // num_processes
     push_platform = "hf"
