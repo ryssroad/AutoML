@@ -85,7 +85,7 @@ class BaseRover(ABC, PushMixin):
                     record = json.load(f)
                     self.last_push_attempt = record.get("last_push_attempt", 0)
                     self.last_push_success = record.get("last_push_success", False)
-                    # Best solution data will be reconstructed during mining
+
         except Exception as e:
             logging.warning(f"Failed to load push record: {e}")
 
@@ -491,7 +491,7 @@ class BaseHuggingFaceRover(BaseRover):
         )
 
 
-class BaseMiningPoolRover(BaseRover):
+class BaseDiggingPoolRover(BaseRover):
     def __init__(self, config):
         super().__init__(config)
         self.push_destinations.append(
@@ -1187,7 +1187,7 @@ class ParallelOptimizerRover(BaseRover):
         raise NotImplementedError
 
 
-class ActivationRoverPool(ActivationRover, BaseMiningPoolRover):
+class ActivationRoverPool(ActivationRover, BaseDiggingPoolRover):
     pass
 
 
@@ -1199,7 +1199,7 @@ class ParallelActivationRover(ActivationRover, IslandRover):
     pass
 
 
-class ParallelActivationRoverPool(ParallelActivationRover, BaseMiningPoolRover):
+class ParallelActivationRoverPool(ParallelActivationRover, BaseDiggingPoolRover):
     pass
 
 
@@ -1211,14 +1211,14 @@ class ParallelLossRover(LossRover, IslandRover):
     pass
 
 
-class LossRoverPool(LossRover, BaseMiningPoolRover):
+class LossRoverPool(LossRover, BaseDiggingPoolRover):
     pass
 
 
 class LossRoverHF(LossRover, BaseHuggingFaceRover):
     pass
 
-class OptimizerRoverPool(OptimizerRover, BaseMiningPoolRover):
+class OptimizerRoverPool(OptimizerRover, BaseDiggingPoolRover):
     pass
 
 
@@ -1226,7 +1226,7 @@ class OptimizerRoverHF(OptimizerRover, BaseHuggingFaceRover):
     pass
 
 
-class ParallelLossRoverPool(ParallelLossRover, BaseMiningPoolRover):
+class ParallelLossRoverPool(ParallelLossRover, BaseDiggingPoolRover):
     pass
 
 
@@ -1235,7 +1235,7 @@ class ParallelLossRoverHF(ParallelLossRover, BaseHuggingFaceRover):
 
 
 
-class ParallelOptimizerRoverPool(ParallelOptimizerRover, BaseMiningPoolRover):
+class ParallelOptimizerRoverPool(ParallelOptimizerRover, BaseDiggingPoolRover):
     pass
 
 
@@ -1244,7 +1244,7 @@ class ParallelOptimizerRoverHF(ParallelOptimizerRover, BaseHuggingFaceRover):
 
 
 
-class SimpleRoverPool(SimpleRover, BaseMiningPoolRover):
+class SimpleRoverPool(SimpleRover, BaseDiggingPoolRover):
     pass
 
 
